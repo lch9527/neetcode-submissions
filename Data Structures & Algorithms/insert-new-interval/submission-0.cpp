@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, 
+    vector<int>& newInterval) {
+        vector<vector<int>> res;
+
+        for(int i = 0; i<intervals.size(); i++){
+            if(newInterval[1]<intervals[i][0]){
+                res.push_back(newInterval);
+                res.insert(res.end(),intervals.begin()+i, intervals.end());
+                return res;
+            }
+            else if(newInterval[0] > intervals[i][1]){
+                res.push_back(intervals[i]);
+            }
+            else{
+                newInterval = {std::min(newInterval[0],intervals[i][0]),
+                            std::max(newInterval[1],intervals[i][1])};
+            }
+        }
+        res.push_back(newInterval);
+        return res;
+    }
+};
+
+
+/*
+[[1,3],[4,6]] [2,5]
+3,6
+
+case1: add new at end or begin
+case2: no overlaping, add new in the middle
+case3: have overlaping, merge;
+
+*/
